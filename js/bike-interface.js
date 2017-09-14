@@ -6,15 +6,17 @@ $(document).ready(function(){
 
     event.preventDefault();
     let manufacturer = $("#manufacturer").val();
+	let location = $("#location").val();
     let distance = $("#distance").val();
-
+	$("#manufacturer").val("");
+	$("#location").val("");
+	$("#distance").val("");
 
     // let newbike = new Bike(manufacturer,distance);
     // var searchResult = newbike.getBikes();
     let promise = new Promise(function(resolve,reject){
     let xhr = new XMLHttpRequest();
-    let url =
-    `https://bikeindex.org:443/api/v3/search?page=1&per_page=25&manufacturer=${manufacturer}&distance=${distance}&stolenness=stolen`;
+    let url = `https://bikeindex.org:443/api/v3/search?manufacturer=${manufacturer}&location=${location}&distance=${distance}`;
     xhr.onload = function()
     {
       if(this.status == 200)
@@ -32,11 +34,24 @@ $(document).ready(function(){
 
     promise.then(function(response) {
     let body = JSON.parse(response);
-    for(var i=0; i<body.length; i++)
+	console.log("Number of bikes found : " + body.bikes.length);
+	var table = document.getElementById("biketable");
+    for(var i=0; i<body.bikes.length; i++)
     {
-      console.log(body[i]);
+		var row = table.insertRow(0);
+		var id = row.insertCell(0);
+		var title = row.insertCell(0);
+		var serial = row.insertCell(0);
+		var manufacturer_name = row.insertCell(0);
+		var frame_model = row.insertCell(0);
+		id.innerHTML = body.bikes[i].id;
+		title.innerHTML = body.bikes[i].title;
+		serial.innerHTML = body.bikes[i].serial;
+		manufacturer_name.innerHTML = body.bikes[i].manufacturer_name;
+		frame_model.innerHTML = body.bikes[i].frame_model;
+	
+      //console.log(body.bikes[i].id + body.bikes[i].title + body.bikes[i].serial + body.bikes[i].manufacturer_name + body.bikes[i].frame_model + body.bikes[i].stolen_location + body.bikes[i].date_stolen);
     }
-    // $("#bikes").text(`your bikes + ${body}`);
    }, function(error) {
      $('.showErrors').text(`There was an error processing your request: ${error.message}`);
    });

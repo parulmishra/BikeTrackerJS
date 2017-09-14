@@ -33,5 +33,13 @@
     "watchify": "^3.9.0"
   },
   "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parulmishra/BikeTrackerJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/parulmishra/BikeTrackerJS/issues"
+  },
+  "homepage": "https://github.com/parulmishra/BikeTrackerJS#readme",
   "description": ""
 }
